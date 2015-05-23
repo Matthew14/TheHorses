@@ -13,7 +13,17 @@ namespace TheHorses.Scraper
             InitializeComponent();
 
             XmlConfigurator.Configure();
+            
+            DoStuff();
 
+        }
+
+        async void DoStuff()
+        {
+            var s = new AtTheRacesScraper();
+
+
+            var r = await s.ScrapeResults();
         }
     }
 }

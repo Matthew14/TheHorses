@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHorses.Scraper", "TheHor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHorses.Database", "TheHorses.Database\TheHorses.Database.csproj", "{ED3C9709-666E-4853-A324-505DF19EE6EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHorses.SharedTypes", "TheHorses.SharedTypes\TheHorses.SharedTypes.csproj", "{8ABB6364-F5A0-4786-A3B1-086DC55419CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{ED3C9709-666E-4853-A324-505DF19EE6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED3C9709-666E-4853-A324-505DF19EE6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED3C9709-666E-4853-A324-505DF19EE6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
