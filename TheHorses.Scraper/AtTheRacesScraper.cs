@@ -35,16 +35,13 @@ namespace TheHorses.Scraper
             var results = new List<RaceResult>();
 
             string thePage = await HTTPStuff.DownloadPageAsync(_todayUrl);
-
             var pageAsStream = new MemoryStream(Encoding.UTF8.GetBytes(thePage));
 
             var doc = new HtmlDocument();
             doc.Load(pageAsStream);
 
             var wrapper = doc.GetElementbyId("wrapper");
-            
             var centerCol = wrapper.ChildNodes.FirstOrDefault(n => n.Attributes["class"]?.Value == "center_col");
-            
             var accordion = centerCol?.ChildNodes[3];
 
             if (accordion == null) return null;
@@ -91,7 +88,7 @@ namespace TheHorses.Scraper
                         for (var i = 0; i < listChildren?.Count; ++i)
                         {
                             var horse = listChildren[i].ChildNodes?.FirstOrDefault(n => n.Name == "a")?.FirstChild.InnerHtml;
-                            places[i] = new Horse {Name = horse};
+                            places[i+1] = new Horse {Name = horse};
                         }
 
                         results.Add(new RaceResult { Race = race, Places = places });
