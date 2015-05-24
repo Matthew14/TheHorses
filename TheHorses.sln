@@ -9,6 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHorses.Database", "TheHo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHorses.SharedTypes", "TheHorses.SharedTypes\TheHorses.SharedTypes.csproj", "{8ABB6364-F5A0-4786-A3B1-086DC55419CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheHorses.API", "TheHorses.API\TheHorses.API.csproj", "{4BFB7967-4488-40D1-91DF-C1E7EFACA8EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{8110577D-E4A4-40B4-B248-739872A03A14}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{F8C207BD-1F67-436D-A00B-2F68C5DCEC52}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\TheHorsesAPI-WAWS-dev.json = PublishScripts\Configurations\TheHorsesAPI-WAWS-dev.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +40,15 @@ Global
 		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ABB6364-F5A0-4786-A3B1-086DC55419CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BFB7967-4488-40D1-91DF-C1E7EFACA8EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BFB7967-4488-40D1-91DF-C1E7EFACA8EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BFB7967-4488-40D1-91DF-C1E7EFACA8EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BFB7967-4488-40D1-91DF-C1E7EFACA8EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8C207BD-1F67-436D-A00B-2F68C5DCEC52} = {8110577D-E4A4-40B4-B248-739872A03A14}
 	EndGlobalSection
 EndGlobal

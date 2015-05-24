@@ -188,4 +188,8 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+
 /TheHorses.Scraper/DatabaseCredentials.xml
+PublishScripts/
+

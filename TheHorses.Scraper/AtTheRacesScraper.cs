@@ -82,12 +82,11 @@ namespace TheHorses.Scraper
                         HtmlNode left = c.ChildNodes.FirstOrDefault(cn => cn.Attributes["class"]?.Value == "split_left");
                         List<HtmlNode> listChildren = left?.ChildNodes.FirstOrDefault(n => n.Name == "ul")?.ChildNodes?.Where(n => n.Name == "li").ToList();
 
-                        var places = new Dictionary<int, Horse>();
+                        var places = new List<Place>();
                         for (var i = 0; i < listChildren?.Count; ++i)
                         {
                             var horse = listChildren[i].ChildNodes?.FirstOrDefault(n => n.Name == "a")?.FirstChild.InnerHtml;
-
-                            places[i+1] = new Horse {Name = horse};
+                            places.Add(new Place {Position = i+1, Horse = new Horse { Name = horse } });
                         }
 
                         results.Add(new RaceResult { Race = race, Places = places });

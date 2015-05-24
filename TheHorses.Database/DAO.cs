@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Channels;
 using TheHorses.SharedTypes;
 
 namespace TheHorses.Database
@@ -25,10 +28,10 @@ namespace TheHorses.Database
                     raceId = GetRaceId(race);
                 }
 
-                foreach (var kvp in result.Places)
+                foreach (var place in result.Places)
                 {
-                    Horse horse = kvp.Value;
-                    int place = kvp.Key;
+                    Horse horse = place.Horse;
+                    int position = place.Position;
                     
                     int horseId = GetHorseId(horse);
                     if (horseId == -1)
@@ -38,12 +41,67 @@ namespace TheHorses.Database
                     }
 
                     if(!RaceResultExists(raceId, horseId))
-                        InsertRaceResult(raceId, horseId, place);
+                        InsertRaceResult(raceId, horseId, position);
                 }
             }
 
             _database.Close();
         }
+
+        public IEnumerable<RaceResult> GetResultsForDay(DateTime day)
+        {
+            bool needsClosing = false;
+            var results = new List<RaceResult>();
+            var sql = "SELECT r.name as race_name, r.venue, r.race_time, rr.position, h.name as horse_name " +
+                      "FROM race r " +
+                      "join race_result rr on r.id = rr.race_id " +
+                      "join horse h on rr.horse_id = h.id " +
+                      "WHERE CONVERT(date, r.race_time) = @date";
+
+            if (!_database.IsOpen)
+            {
+                _database.Open();
+                needsClosing = true;
+            }
+
+            var command = _database.GetCommand(sql);
+            command.Parameters.Add(_database.GetParam("@date", $"{day.Year}-{day.Month}-{day.Day}"));
+
+            var reader = _database.Query(command);
+
+            while (reader.Read())
+            {
+                Race race = new Race
+                {
+                    Name = reader["race_name"] as string,
+                    Venue = reader["venue"] as string,
+                    When = (DateTime) reader["race_time"]
+                };
+                RaceResult result = results.SingleOrDefault(res => res.Race == race);
+
+                if (result == null)
+                {
+                    result = new RaceResult {Places = new List<Place>(), Race = race};
+                    results.Add(result);
+                }
+
+                result.Places.Add(
+                    new Place
+                    {
+                        Horse = new Horse {Name = reader["horse_name"] as string},
+                        Position = (int) reader["position"]
+                    });
+            }
+
+            reader.Close();
+
+            if (_database.IsOpen && needsClosing)
+                _database.Close();
+
+            return results;
+        }
+
+        #region Privates
 
         private bool RaceExists(Race race) => GetRaceId(race) != -1;
 
@@ -226,5 +284,6 @@ namespace TheHorses.Database
 
             return id;
         }
+        #endregion
     }
 }

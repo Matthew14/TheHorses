@@ -13,18 +13,15 @@ namespace TheHorses.Scraper
         public HiddenForm()
         {
             InitializeComponent();
-
             XmlConfigurator.Configure();
-
             DoStuff();
-           
         }
 
         async void DoStuff()
         {
             IResultsScraper s = new AtTheRacesScraper();
 
-            var r = await s.ScrapeResults(DateTime.Today.Subtract(new TimeSpan(1,0,0)));
+            var r = await s.ScrapeResults(DateTime.Today.Subtract(new TimeSpan(2,0,0,0)));
             IDatabase db = new SQLServerDatabase(DatabaseCredentials.LoadFromFile(ScraperSettings.Default.dbCredFile));
             var dao = new Dao(db);
 
