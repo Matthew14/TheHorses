@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using log4net;
 using log4net.Config;
 using TheHorses.Database;
@@ -23,7 +24,7 @@ namespace TheHorses.Scraper
         {
             IResultsScraper s = new AtTheRacesScraper();
 
-            var r = await s.ScrapeResults();
+            var r = await s.ScrapeResults(DateTime.Today.Subtract(new TimeSpan(1,0,0)));
             IDatabase db = new SQLServerDatabase(DatabaseCredentials.LoadFromFile(ScraperSettings.Default.dbCredFile));
             var dao = new Dao(db);
 

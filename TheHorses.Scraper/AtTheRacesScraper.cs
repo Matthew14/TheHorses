@@ -15,26 +15,19 @@ namespace TheHorses.Scraper
     public class AtTheRacesScraper : IResultsScraper
     {
         private readonly string _baseUrl = "http://www.attheraces.com/results";
-        private string _todayUrl, _yesterdayUrl, _twoDaysAgoUrl;
-        private DateTime _currentDateTime;
         
-        public AtTheRacesScraper()
-        {
-            DetermineUrls();
-        }
-
         #region IResultsScraper Methods
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns>A List of race results scraped from the web page</returns>
-        public async Task<IEnumerable<RaceResult>> ScrapeResults()
+        public async Task<IEnumerable<RaceResult>> ScrapeResults(DateTime when)
         {
             //Sorry, future me, in advance...
             var results = new List<RaceResult>();
-
-            string thePage = await HTTPStuff.DownloadPageAsync(_yesterdayUrl);
+            string url = DetermineUrlForDate(when);
+            string thePage = await HTTPStuff.DownloadPageAsync(url);
             var pageAsStream = new MemoryStream(Encoding.UTF8.GetBytes(thePage));
 
             var doc = new HtmlDocument();
@@ -51,7 +44,9 @@ namespace TheHorses.Scraper
             {
                 string track = venue.ChildNodes[1].FirstChild.InnerHtml;
 
-                if(track.Contains("USA")) continue;
+                if(track.Contains("USA") || track.Contains("RSA") || track.ToLower().Contains("france")) continue;
+
+                track = track.Replace("&nbsp;", " ");
                 
                 var liChildren = venue.ChildNodes[3].ChildNodes[1].ChildNodes;
 
@@ -78,7 +73,7 @@ namespace TheHorses.Scraper
                         {
                             Venue = track,
                             Name = fields[1],
-                            When = new DateTime(_currentDateTime.Year, _currentDateTime.Month, _currentDateTime.Day, hour, minute, 0)
+                            When = new DateTime(when.Year, when.Month, when.Day, hour, minute, 0)
                         };
 
                     }
@@ -107,21 +102,12 @@ namespace TheHorses.Scraper
 
         #region Private Helpers
 
-        private void DetermineUrls()
+        private string DetermineUrlForDate(DateTime when)
         {
-            var today = DateTime.Now;
-            var yesterday = today.Subtract(new TimeSpan(1, 0, 0, 0));
-            var dayBeforeYesterday = today.Subtract(new TimeSpan(2, 0, 0, 0));
-
-            //TODO:
-            _currentDateTime = yesterday;
-
             Func<int, string> zeroMaybe = i => i < 10 ? $"0{i}" : i.ToString();
             Func<DateTime, string> getUrl = dt => $"{_baseUrl}/?date={dt.Year}-{zeroMaybe(dt.Month)}-{zeroMaybe(dt.Day)}";
 
-            _todayUrl = getUrl(today);
-            _yesterdayUrl = getUrl(yesterday);
-            _twoDaysAgoUrl = getUrl(dayBeforeYesterday);
+            return getUrl(when);
         }
 
         #endregion

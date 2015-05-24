@@ -1,10 +1,10 @@
--- ALTER TABLE race_result DROP CONSTRAINT FK_race_result_race;
--- DROP TABLE dbo.race;
--- 
--- ALTER TABLE race_result DROP CONSTRAINT FK_race_result_horse;
--- DROP TABLE dbo.horse;
--- 
--- DROP TABLE dbo.race_result;
+ALTER TABLE race_result DROP CONSTRAINT FK_race_result_race;
+DROP TABLE dbo.race;
+--
+ALTER TABLE race_result DROP CONSTRAINT FK_race_result_horse;
+DROP TABLE dbo.horse;
+--
+DROP TABLE dbo.race_result;
 
 -- Let's create:
 CREATE TABLE race (id int IDENTITY PRIMARY KEY, name varchar(200), venue varchar(100), race_time datetime);
