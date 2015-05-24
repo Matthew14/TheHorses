@@ -5,10 +5,6 @@ namespace TheHorses.Scraper
 {
     public class HTTPStuff
     {
-        public HTTPStuff()
-        {
-        }
-
         public static async Task<string> DownloadPageAsync(string url)
         {
             using (HttpClient client = new HttpClient())

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using log4net;
 using log4net.Config;
+using TheHorses.Database;
 
 namespace TheHorses.Scraper
 {
@@ -13,17 +14,21 @@ namespace TheHorses.Scraper
             InitializeComponent();
 
             XmlConfigurator.Configure();
-            
-            DoStuff();
 
+            DoStuff();
+           
         }
 
         async void DoStuff()
         {
-            var s = new AtTheRacesScraper();
-
+            IResultsScraper s = new AtTheRacesScraper();
 
             var r = await s.ScrapeResults();
+            IDatabase db = new SQLServerDatabase(DatabaseCredentials.LoadFromFile(ScraperSettings.Default.dbCredFile));
+            var dao = new Dao(db);
+
+            dao.AddResults(r);
+            MessageBox.Show(@"Done");
         }
     }
 }

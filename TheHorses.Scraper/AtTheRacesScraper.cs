@@ -34,7 +34,7 @@ namespace TheHorses.Scraper
             //Sorry, future me, in advance...
             var results = new List<RaceResult>();
 
-            string thePage = await HTTPStuff.DownloadPageAsync(_todayUrl);
+            string thePage = await HTTPStuff.DownloadPageAsync(_yesterdayUrl);
             var pageAsStream = new MemoryStream(Encoding.UTF8.GetBytes(thePage));
 
             var doc = new HtmlDocument();
@@ -50,6 +50,9 @@ namespace TheHorses.Scraper
             foreach (var venue in accordion.ChildNodes.Where(node => node.Name == "div"))
             {
                 string track = venue.ChildNodes[1].FirstChild.InnerHtml;
+
+                if(track.Contains("USA")) continue;
+                
                 var liChildren = venue.ChildNodes[3].ChildNodes[1].ChildNodes;
 
                 Race race = new Race(); 
@@ -88,6 +91,7 @@ namespace TheHorses.Scraper
                         for (var i = 0; i < listChildren?.Count; ++i)
                         {
                             var horse = listChildren[i].ChildNodes?.FirstOrDefault(n => n.Name == "a")?.FirstChild.InnerHtml;
+
                             places[i+1] = new Horse {Name = horse};
                         }
 

@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientWrapper.cs" />
     <Compile Include="HiddenForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +66,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IResultsScraper.cs" />
     <Compile Include="AtTheRacesScraper.cs" />
+    <Compile Include="ScraperSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ScraperSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -87,15 +91,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ScraperSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ScraperSettings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheHorses.Database\TheHorses.Database.csproj">
+      <Project>{ED3C9709-666E-4853-A324-505DF19EE6EC}</Project>
+      <Name>TheHorses.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheHorses.SharedTypes\TheHorses.SharedTypes.csproj">
       <Project>{8ABB6364-F5A0-4786-A3B1-086DC55419CA}</Project>
       <Name>TheHorses.SharedTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseCredentials.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

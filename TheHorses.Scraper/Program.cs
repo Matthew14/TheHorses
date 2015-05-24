@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TheHorses.Scraper
@@ -16,7 +13,19 @@ namespace TheHorses.Scraper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+#if DEBUG
             Application.Run(new HiddenForm());
+#else
+            try
+            {
+                Application.Run(new HiddenForm());
+            }
+            catch
+            {
+                throw;
+            }
+#endif
         }
     }
 }
