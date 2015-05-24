@@ -5,15 +5,11 @@ namespace TheHorses.Database
 {
     public class SQLServerDatabase : IDatabase
     {
-        private readonly DatabaseCredentials _credentials;
         private SqlConnection _conn;
 
         public bool IsOpen { get; private set; }
 
-        public string ConnectionString => $"user id={_credentials.User};" +
-                                          $"password={_credentials.Password};" +
-                                          $"server={_credentials.Host};" +
-                                          $"database={_credentials.Database}";
+        public string ConnectionString { get; private set; } 
 
 
         public DbCommand GetCommand(string sql) => new SqlCommand(sql, _conn);
@@ -22,11 +18,16 @@ namespace TheHorses.Database
         public void NonQuery(DbCommand command) => command.ExecuteNonQuery();
 
 
-        public SQLServerDatabase(DatabaseCredentials credentials)
+        public SQLServerDatabase(string connectionString)
         {
-            _credentials = credentials;
+            ConnectionString = connectionString;
             _conn = new SqlConnection(ConnectionString);
         }
+
+        public SQLServerDatabase(DatabaseCredentials credentials) : this($"user id={credentials.User};" +
+                                                                         $"password={credentials.Password};" +
+                                                                         $"server={credentials.Host};" +
+                                                                         $"database={credentials.Database}"){}
 
         public void Open()
         {
@@ -48,7 +49,7 @@ namespace TheHorses.Database
                 _conn.Close();
                 IsOpen = false;
             }
-            catch (SqlException sqlException)
+            catch (SqlException)
             {
                 throw; //TODO
             }
